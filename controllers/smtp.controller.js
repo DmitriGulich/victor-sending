@@ -122,7 +122,7 @@ exports.sendEmail = async function(req, res) {
 
         // add proxy!
         smtpSettings.proxy = req.body.proxy || '';
-    
+        console.log('before check SMTP');
         const transporter = await checkSMTP(smtpSettings);
         
         // ready mail configuration
@@ -145,7 +145,8 @@ exports.sendEmail = async function(req, res) {
             // ]
             
         }; 
-    
+        console.log('before Send email');
+        
         await transporter.sendMail(mailConfig);
     } catch (error) {
         return res.status(400).json({
