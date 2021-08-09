@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 
 
 const HOST = "localhost";
-const PORT = "5000";
+const PORT = process.env.PORT || 5000;
 
 const authRouter = require('./routers/auth.router');
 const userRouter = require('./routers/user.router');
