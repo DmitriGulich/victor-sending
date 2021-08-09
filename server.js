@@ -21,8 +21,8 @@ app.use('/auth', authRouter);
 app.use('/user', userRouter);
 app.use('/smtp', smtpRouter);
 
-app.get('/*', function(req, res) {
-    res.sendFile(path.join(__dirname, './client/build/index.html'), function(err) {
+app.get('*', function(req, res) {
+    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'), function(err) {
         if (err) {
             res.status(500).send(err)
         }
