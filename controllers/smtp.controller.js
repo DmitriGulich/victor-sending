@@ -11,7 +11,7 @@ const checkSMTP = async (data, settings) => {
             proxy: data.proxy,
             auth: {
                 user: data.user,
-                pass: data.pass
+                pass: data.password
             },
             tls: {
                 rejectUnauthorized: false
