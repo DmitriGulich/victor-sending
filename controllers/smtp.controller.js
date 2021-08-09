@@ -125,6 +125,7 @@ exports.sendEmail = async function(req, res) {
         console.log('before check SMTP');
         const transporter = await checkSMTP(smtpSettings);
         
+        console.log(req.body);
         // ready mail configuration
         let mailConfig = {
             from: smtpSettings.user,
