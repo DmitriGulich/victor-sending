@@ -41,7 +41,7 @@ let MailEditForm = (props) => {
                         <label>Content</label>
                         <Field
                             label="Content"
-                            name="content"
+                            name="html"
                             component="textarea"
                             type="textarea"
                             placeholder=""

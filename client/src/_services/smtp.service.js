@@ -15,7 +15,8 @@ const getSmtpSettings = async () => {
 
 const setStmpSettings = async (setting, smtp) => {
     const token = localStorage.getItem('token');
-    const method = smtp.setting === null ? 'POST' : 'PUT';
+    console.log(smtp);
+    const method = smtp.settings === null ? 'POST' : 'PUT';
 
     const options = {
         method,
