@@ -19,13 +19,13 @@ exports.register = async (req, res) => {
                     }
                 }
         });
-    
+        
         user = new User({
             firstName: req.body.firstName,    
             lastName: req.body.lastName, 
             phone: req.body.phone,   
             email: req.body.email,    
-            password: req.body.password.Date,
+            password: req.body.password,
             confirmationCode: crypto.randomBytes(16).toString('hex')
         });
         const newUser = await user.save();
@@ -39,7 +39,7 @@ exports.register = async (req, res) => {
             html: `<h1>Email Confirmation</h1>
             <h2>Hello ${username}</h2>
             <p>Thank you for subscribing. Please confirm your email by clicking on the following link</p>
-            <a href=http://localhost:3000/verify/${confirmationCode}> Click here</a>
+            <a href=http://localhost:3000/verify/${newUser.confirmationCode}> Click here</a>
             </div>`
         };
 
