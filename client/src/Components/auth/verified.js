@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Verified = (props) => {
     const [loading, setLoading] = useState(false);
@@ -7,6 +8,7 @@ const Verified = (props) => {
 
     if (props.match.path === "/verify/:confirmationCode") {
         setLoading(true);
+        const code = props.match.params.confirmationCode;
         axios.get("/auth/verify/" + code)
             .then(
                 response => {
@@ -30,7 +32,6 @@ const Verified = (props) => {
                         (<>
                             <h1>Account confirmed!</h1>
                             <p style={{color: '#8C9096'}}>
-                                Hi, {username}. <br />
                                 Your account is successfully confirmed. <Link to="/login">Please Login</Link>
                             </p>
                         </>
