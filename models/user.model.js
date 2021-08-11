@@ -28,9 +28,17 @@ const UserSchema = new Schema({
         maxLength: 100,
         minlength: 8
     },
-    isEmailVerified: {
-        type: Boolean,
-        default: false
+    status: {
+        type: String, 
+        enum: ['Pending', 'Active'],
+        default: 'Pending'
+    },
+    confirmationCode: { 
+        type: String, 
+        unique: true 
+    },
+    expired: {
+        type: Date
     },
     phone: {
         type: String,

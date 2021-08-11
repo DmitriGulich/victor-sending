@@ -1,6 +1,8 @@
 const User = require('../models/user.model');
+const crypto = require('crypto');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { sendEmail } = require('../utils/mail');
 const { verifyToken } = require('../utils/jwt');
 
 exports.register = async (req, res) => {
@@ -23,11 +25,26 @@ exports.register = async (req, res) => {
             lastName: req.body.lastName, 
             phone: req.body.phone,   
             email: req.body.email,    
-            password: req.body.password
+            password: req.body.password.Date,
+            confirmationCode: crypto.randomBytes(16).toString('hex')
         });
         const newUser = await user.save();
+        const username = newUser.firstName + ' ' + newUser.lastName;
 
         // send verify Email
+        const mailOptions = { 
+            from: process.env.USER_EMAIL, 
+            to: newUser.email, 
+            subject: 'Account Verification Token', 
+            html: `<h1>Email Confirmation</h1>
+            <h2>Hello ${username}</h2>
+            <p>Thank you for subscribing. Please confirm your email by clicking on the following link</p>
+            <a href=http://localhost:3000/verify/${confirmationCode}> Click here</a>
+            </div>`
+        };
+
+        sendEmail(mailOptions);
+
 
         // end of sending email
 
@@ -57,7 +74,7 @@ exports.login = async (req, res) => {
         } 
 
         // check verify 
-        if(!user.isEmailVerified) {
+        if(user.status !== 'Active') {
             return res.status(401).json({
                 status: 'failed',
                 msg: 'verify'
@@ -90,15 +107,34 @@ exports.login = async (req, res) => {
         return res.status(403).json({ 
             status: 'failed',
             msg: 'unauthorized'
-         });
+        });
     }
 }
 
 exports.emailVerify = async (req, res) => {
     try {
-        let user = User.findOne({})
+        const token = req.params.token;
+        let user = await User.findOne({confirmationCode: token});
+
+        if(user === null) {
+            return res.status(404).json({ 
+                status: 'failed',
+                msg: 'No user'
+            });
+        }
+
+        user.status = 'Active';
+        await user.save();
+
+        return res.status(200).json({
+            status: 'success'
+        });
+
     } catch (error) {
-        
+        return res.status(403).json({ 
+            status: 'failed',
+            msg: 'unauthorized'
+        });
     }
 }
 

@@ -7,6 +7,7 @@ import ProtectedRoute from "./Components/shared/protectedRoute";
 import Header from "./views/header";
 import Footer from "./views/footer";
 import SmtpConfig from "./Components/smtp/smtpConfig";
+import Verified from "./Components/auth/verified";
 
 function App() {
 
@@ -17,10 +18,12 @@ function App() {
         <Route path="/login" exact component={Login}/>
         <Route path="/register" exact component={Register}/>
         <Route path="/register/verify" exact component={VerifyEmail} />
-        <Route path="/smtp" exact component={SmtpConfig} />
+        <Route path="/verify/:confirmationCode" exact component={Verified} />
+        <ProtectedRoute path="/smtp" exact component={SmtpConfig} />
         <ProtectedRoute path='/send' exact component={Mailboard} />
+        <Redirect to="/send" from="/" />
       </Switch>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

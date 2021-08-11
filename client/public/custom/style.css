@@ -404,6 +404,10 @@ form .input-error {
     left: 0px;
 }
 
+span.nav-link {
+    cursor: pointer;
+}
+
 .noselect {
     -webkit-touch-callout: none; /* iOS Safari */
       -webkit-user-select: none; /* Safari */
