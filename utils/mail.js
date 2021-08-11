@@ -1,5 +1,6 @@
 const { google } = require('googleapis');
-const OAuth2 = google.auth.OAuth2;const { createTransport } = require("nodemailer");
+const OAuth2 = google.auth.OAuth2;
+const { createTransport } = require("nodemailer");
 
 const createTransporter = async () => {
     const oauth2Client = new OAuth2(
@@ -20,6 +21,8 @@ const createTransporter = async () => {
         resolve(token);
       });
     });
+
+    console.log(accessToken);
   
     const transporter = createTransport({
       service: "gmail",
@@ -30,14 +33,18 @@ const createTransporter = async () => {
         clientId: process.env.CLIENT_ID,
         clientSecret: process.env.CLIENT_SECRET,
         refreshToken: process.env.REFRESH_TOKEN
+      },
+      tls: {
+        rejectUnauthorized: false
       }
     });
-  
     return transporter;
 };
 
 exports.sendEmail = async (emailOptions) => {
     let emailTransporter = await createTransporter();
+    console.log('created transport');
     await emailTransporter.sendMail(emailOptions);
+    console.log('sent');
 };
 
