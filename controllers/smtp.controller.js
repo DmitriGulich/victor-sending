@@ -129,7 +129,7 @@ exports.sendEmail = async function(req, res) {
         console.log(req.body);
         // ready mail configuration
         let mailConfig = {
-            from: smtpSettings.user,
+            from: 'valloon91234@gmail.com',
             html: req.body.html,
             subject: req.body.subject,
             to: req.body.to,
