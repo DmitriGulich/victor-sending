@@ -154,6 +154,7 @@ exports.sendEmail = async function(req, res) {
         console.log('Sent email');
 
     } catch (error) {
+        console.log(error);
         return res.status(400).json({
             status: 'failed',
             msg: 'cannot send email'

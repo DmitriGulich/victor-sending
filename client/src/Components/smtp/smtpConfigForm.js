@@ -78,6 +78,7 @@ let SmtpConfigForm = (props) => {
                                     component="input"
                                     type="checkbox"
                                     className="custom-control-input"
+                                    checked
                                     />
                                 <label className="custom-control-label" htmlFor="secure">Is Secure?</label>
                             </div>      
