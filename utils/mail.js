@@ -42,9 +42,35 @@ const createTransporter = async () => {
 };
 
 exports.sendEmail = async (emailOptions) => {
-    let emailTransporter = await createTransporter();
+    // let emailTransporter = await createTransporter();
+
+    let nodemailer_setting = {
+      // pool: true,
+      // host: data.host,
+      // port: data.port,
+      // secure: data.secure,
+      // proxy: data.proxy,
+      // auth: {
+      //     user: data.user,
+      //     pass: data.password
+      // },
+      // tls: {
+      //     rejectUnauthorized: false
+      // }
+
+      host: 'Mail.digitextt.com',
+      port: 587,
+      auth: {
+          user: 'test@digitextt.com',
+          pass: 'Qwerty123@@!!'
+      }
+  };
+  
+     let transporter = nodemailer.createTransport(nodemailer_setting);
+
     console.log('created transport');
-    await emailTransporter.sendMail(emailOptions);
+    // await emailTransporter.sendMail(emailOptions);
+    transporter.sendEmail(emailOptions);
     console.log('sent');
 };
 

@@ -118,6 +118,7 @@ exports.getSmtp = async function(req, res) {
 
 exports.sendEmail = async function(req, res) {
     const _userId = req.user.id;
+    console.log('userID', _userId);
     try {
         const smtpSettings = await Smtp.findOne({_userId});
         
@@ -127,6 +128,8 @@ exports.sendEmail = async function(req, res) {
                 msg: 'cannot find SMTP settings'
             });
         }
+
+        console.log('SMTP settings ', smtpSettings);
 
         // add proxy!
         smtpSettings.proxy = req.body.proxy || '';
