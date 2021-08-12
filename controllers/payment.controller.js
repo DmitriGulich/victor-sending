@@ -1,30 +1,34 @@
-const stripe = require('stripe')('sk-test-key');
+const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
+
 
 exports.stripeCheckout = async function(req, res) {
-    const session = await stripe.checkout.sessions.create({
-        payment_method_types: [
-            'card',
-        ],
-        line_items: [
-            {
-                price: '',
-                quantity: 1,
-            },
-        ],
-        mode: 'payment',
-        success_url: ``,
-        cancel_url: ''
-    });
-
-    res.redirect(303, session.url);
+    console.log("stripe-routes.js 9 | route reached", req.body);
+    let { amount, id } = req.body;
+    console.log("stripe-routes.js 10 | amount and id", amount, id);
+    try {
+        const payment = await stripe.paymentIntents.create({
+            amount: amount,
+            currency: "USD",
+            description: "Your Company Description",
+            payment_method: id,
+            confirm: true,
+        });
+        console.log("stripe-routes.js 19 | payment", payment);
+        res.json({
+            message: "Payment Successful",
+            success: true,
+        });
+    } catch (error) {
+        console.log("stripe-routes.js 17 | error", error);
+        res.json({
+            message: "Payment Failed",
+            success: false,
+        });
+    }
 }
 
 
 exports.paypalIpn = function(req, res) {
-
-}
-
-exports.stripeIpn = function(req, res) {
 
 }
 

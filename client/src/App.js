@@ -8,6 +8,7 @@ import Header from "./views/header";
 import Footer from "./views/footer";
 import SmtpConfig from "./Components/smtp/smtpConfig";
 import Verified from "./Components/auth/verified";
+import Payments from "./views/payments";
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
         <Route path="/register" exact component={Register}/>
         <Route path="/register/verify" exact component={VerifyEmail} />
         <Route path="/verify/:confirmationCode" exact component={Verified} />
+        <Route path="/payments" exact component={Payments} />
         <ProtectedRoute path="/smtp" exact component={SmtpConfig} />
         <ProtectedRoute path='/send' exact component={Mailboard} />
         <Redirect to="/send" from="/" />
