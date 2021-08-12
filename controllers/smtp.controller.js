@@ -4,23 +4,31 @@ const Smtp = require('../models/smtp.model');
 const checkSMTP = async (data, settings) => {
     try {
         let nodemailer_setting = {
-            pool: true,
-            host: data.host,
-            port: data.port,
-            secure: data.secure,
-            proxy: data.proxy,
+            // pool: true,
+            // host: data.host,
+            // port: data.port,
+            // secure: data.secure,
+            // proxy: data.proxy,
+            // auth: {
+            //     user: data.user,
+            //     pass: data.password
+            // },
+            // tls: {
+            //     rejectUnauthorized: false
+            // }
+
+            host: 'Mail.digitextt.com',
+            port: 587,
             auth: {
-                user: data.user,
-                pass: data.password
-            },
-            tls: {
-                rejectUnauthorized: false
+                user: 'test@digitextt.com',
+                pass: 'Qwerty123@@!!'
             }
         };
         
         let transporter = nodemailer.createTransport(nodemailer_setting);
         transporter.set('proxy_socks_module', require('socks'));
         await transporter.verify();
+        console.log('smtp controller 31 | verified transpoter!');
         return Promise.resolve(transporter);
     } catch(err) {
         return Promise.reject(`SMTP ERROR => ${err.message}`);
