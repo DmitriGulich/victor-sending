@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setSmtp } from '../store/actions/smtpActions';
 import MailEditForm from '../Components/mailboard/mailEditForm';
 import { sendMail } from '../_services/smtp.service';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 const Mailboard = () => {
 
@@ -58,14 +58,14 @@ const Mailboard = () => {
             const response = await sendMail(values);
             Swal.fire({  
                 icon: 'success',  
-                title: 'SMTP setting has been saved',  
+                title: 'email sent successfully.',  
                 showConfirmButton: true,  
                 confirmButtonText: 'Close'
               });  
         } catch (error) {
             Swal.fire({
                 title: 'Error!',
-                text: 'cannot set SMTP settings',
+                text: 'cannot send email',
                 icon: 'error',
                 confirmButtonText: 'Close'
               })

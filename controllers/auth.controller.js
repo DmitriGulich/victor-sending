@@ -39,7 +39,7 @@ exports.register = async (req, res) => {
             html: `<h1>Email Confirmation</h1>
             <h2>Hello ${username}</h2>
             <p>Thank you for subscribing. Please confirm your email by clicking on the following link</p>
-            <a href=http://localhost:3000/verify/${newUser.confirmationCode}> Click here</a>
+            <a href=https://sheltered-refuge-91847.herokuapp.com/verify/${newUser.confirmationCode}> Click here</a>
             </div>`
         };
 
@@ -140,8 +140,35 @@ exports.emailVerify = async (req, res) => {
 
 exports.resend = async (req, res) => {
     // check user
+    const {email, username} = req.body;
+    const user = User.findOne({email});
+
+    if(user === null) {
+        return res.status(404).json({ 
+            status: 'failed',
+            msg: 'No user'
+        });
+    }
 
     // check verify status
+    if(user.status === 'Active'){
+        return res.status(200).json({
+            status: 'success',
+            msg: 'already activated'
+        });
+    }
 
     // send email
+    const mailOptions = { 
+        from: process.env.USER_EMAIL, 
+        to: email, 
+        subject: 'Account Verification Token', 
+        html: `<h1>Email Confirmation</h1>
+        <h2>Hello ${username}</h2>
+        <p>Thank you for subscribing. Please confirm your email by clicking on the following link</p>
+        <a href=https://sheltered-refuge-91847.herokuapp.com/verify/${user.confirmationCode}> Click here</a>
+        </div>`
+    };
+
+    sendEmail(mailOptions);
 }

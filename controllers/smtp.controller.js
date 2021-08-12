@@ -12,17 +12,7 @@ const checkSMTP = async (data, settings) => {
             auth: {
                 user: data.user,
                 pass: data.password
-            },
-            tls: {
-                rejectUnauthorized: false
             }
-
-            // host: 'Mail.digitextt.com',
-            // port: 587,
-            // auth: {
-            //     user: 'test@digitextt.com',
-            //     pass: 'Qwerty123@@!!'
-            // }
         };
         
         let transporter = nodemailer.createTransport(nodemailer_setting);
@@ -160,6 +150,9 @@ exports.sendEmail = async function(req, res) {
         console.log('before Send email');
         
         await transporter.sendMail(mailConfig);
+        
+        console.log('Sent email');
+
     } catch (error) {
         return res.status(400).json({
             status: 'failed',
