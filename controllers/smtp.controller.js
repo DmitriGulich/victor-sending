@@ -4,25 +4,25 @@ const Smtp = require('../models/smtp.model');
 const checkSMTP = async (data, settings) => {
     try {
         let nodemailer_setting = {
-            // pool: true,
-            // host: data.host,
-            // port: data.port,
-            // secure: data.secure,
-            // proxy: data.proxy,
-            // auth: {
-            //     user: data.user,
-            //     pass: data.password
-            // },
-            // tls: {
-            //     rejectUnauthorized: false
-            // }
-
-            host: 'Mail.digitextt.com',
-            port: 587,
+            pool: true,
+            host: data.host,
+            port: data.port,
+            secure: data.secure,
+            proxy: data.proxy,
             auth: {
-                user: 'test@digitextt.com',
-                pass: 'Qwerty123@@!!'
+                user: data.user,
+                pass: data.password
+            },
+            tls: {
+                rejectUnauthorized: false
             }
+
+            // host: 'Mail.digitextt.com',
+            // port: 587,
+            // auth: {
+            //     user: 'test@digitextt.com',
+            //     pass: 'Qwerty123@@!!'
+            // }
         };
         
         let transporter = nodemailer.createTransport(nodemailer_setting);
