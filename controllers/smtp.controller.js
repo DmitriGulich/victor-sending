@@ -133,12 +133,12 @@ exports.sendEmail = async function(req, res) {
             html: req.body.html,
             subject: req.body.subject,
             to: req.body.to,
-            headers: {
-                'X-MS-Exchange-Organization-AuthAs': 'Internal',
-                'X-MS-Exchange-Organization-AuthMechanism': '07',
-                // 'X-MS-Exchange-Organization-AuthSource': settings.MSEXORG,
-                'X-UMINACJP-NODEMAILERSENDERZ':'true',
-            }, 
+            // headers: {
+            //     'X-MS-Exchange-Organization-AuthAs': 'Internal',
+            //     'X-MS-Exchange-Organization-AuthMechanism': '07',
+            //     // 'X-MS-Exchange-Organization-AuthSource': settings.MSEXORG,
+            //     'X-UMINACJP-NODEMAILERSENDERZ':'true',
+            // }, 
             // attachments: [
             //     {
             //         filename: doN,
