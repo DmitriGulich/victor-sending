@@ -26,6 +26,10 @@ const SMTPSchema = new Schema({
         required: [true, 'please enter user'],
         trim: true
     },
+    email: {
+        type: String,
+        required: true
+    },
     password: {
         type: String,
         required: "Please enter password",

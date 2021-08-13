@@ -34,6 +34,7 @@ exports.createSmtp = async function(req, res) {
             host: req.body.host,
             port: req.body.port,
             user: req.body.user,
+            email: req.body.email,
             password: req.body.password
         });
 
@@ -59,6 +60,7 @@ exports.updateSmtp = async function(req, res) {
             port: req.body.port,
             secure: req.body.secure,
             user: req.body.user,
+            email: req.body.email,
             password: req.body.password
         }
 
@@ -129,7 +131,7 @@ exports.sendEmail = async function(req, res) {
         console.log(req.body);
         // ready mail configuration
         let mailConfig = {
-            from: 'valloon91234@gmail.com',
+            from: smtpSettings.email,
             html: req.body.html,
             subject: req.body.subject,
             to: req.body.to,
