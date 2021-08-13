@@ -13,6 +13,7 @@ exports.stripeCheckout = async function(req, res) {
             payment_method: id,
             confirm: true,
         });
+        
         console.log("stripe-routes.js 19 | payment", payment);
         res.json({
             message: "Payment Successful",

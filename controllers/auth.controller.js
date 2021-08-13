@@ -89,10 +89,9 @@ exports.login = async (req, res) => {
         });
         
         const token = jwt.sign(
-            {
-                _id: user._id,
-                exp: Math.floor(Date.now() / 1000) + (60 * 60),
-                iat: Math.floor(Date.now())
+            { 
+                _id: user._id, 
+                exp: (Date.now() / 1000) + 60 * 60
             }, 
             process.env.JWT_SECRET, 
         );
@@ -101,7 +100,12 @@ exports.login = async (req, res) => {
             username: user.firstName + ' ' + user.lastName,
             email: user.email,
             accessToken: token,
-            id: user._id    
+            id: user._id,    
+            role: user.role,
+            phone: user.phone,
+            freeCount: user.freeCount,
+            counter: user.counter,
+            endDate: user.endDate
         });
     } catch (error) {
         return res.status(403).json({ 

@@ -19,6 +19,7 @@ const Login = () => {
          .then(response => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             const { data } = response;
+            localStorage.clear();
             localStorage.setItem('token', data.accessToken);
             localStorage.setItem('username', data.username);
             localStorage.setItem('email', data.email);

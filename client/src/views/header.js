@@ -24,7 +24,7 @@ const Header = () => {
                     {isAuth ? (
                         <>
                             <li className="nav-item">
-                                <span className="nav-link">{user.username}</span>
+                                <Link to="/profile" className="nav-link">{user.username}</Link>
                             </li>
                             <li className="nav-item">
                                 <span className="nav-link">Log out</span>

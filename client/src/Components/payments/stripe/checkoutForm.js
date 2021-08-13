@@ -2,9 +2,28 @@ import React from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import axios from "axios";
 
+
 export const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
+
+  const cardStyle = {
+    style: {
+      base: {
+        color: "#32325d",
+        fontFamily: 'Arial, sans-serif',
+        fontSmoothing: "antialiased",
+        fontSize: "16px",
+        "::placeholder": {
+          color: "#32325d"
+        }
+      },
+      invalid: {
+        color: "#fa755a",
+        iconColor: "#fa755a"
+      }
+    }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -39,8 +58,10 @@ export const CheckoutForm = () => {
 
   return (
     <form onSubmit={handleSubmit} style={{ maxWidth: 400 }}>
-      <CardElement />
-      <button>Pay</button>
+      <CardElement options={cardStyle} />
+      <div className="mt-4 form-group justify-content-center d-flex">
+          <button className="btn btn-info col-8">Pay with Stripe</button>
+      </div>
     </form>
   );
 };

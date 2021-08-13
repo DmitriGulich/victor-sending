@@ -33,9 +33,9 @@ exports.protect = async (req, res, next) => {
 
 
     } catch (err) {
-        return res.status(400).json({
+        return res.status(401).json({
             status: 'fail',
-            message: 'error'
+            message: 'unauthorized: ' + err.message
         })
     }
 }

@@ -49,13 +49,17 @@ const UserSchema = new Schema({
         enum: ['premium', 'guest', 'admin'],
         default: 'guest'
     },
-    balance: {
+    endDate: {
+        type: Date,
+        default: null
+    },
+    freeCount: {
         type: Number,
-        default: 0
+        default: 100
     },
     counter: {
         type: Number,
-        default: 100
+        default: 0
     }
 });
 

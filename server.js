@@ -11,6 +11,7 @@ const authRouter = require('./routers/auth.router');
 const userRouter = require('./routers/user.router');
 const smtpRouter = require('./routers/smtp.router');
 const paymentRouter = require('./routers/payment.router');
+const adminRouter = require('./routers/admin.router');
 
 const app = express();
 
@@ -22,6 +23,8 @@ app.use('/auth', authRouter);
 app.use('/user', userRouter);
 app.use('/smtp', smtpRouter);
 app.use('/payments', paymentRouter);
+
+app.use('/admin', adminRouter);
 
 app.get('*', function(req, res) {
     res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'), function(err) {
