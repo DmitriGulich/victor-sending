@@ -1,11 +1,19 @@
-import React from 'react';
+import React, {useState, useRef} from 'react';
 import { Link } from "react-router-dom";
 import { Field, reduxForm } from 'redux-form';
 import renderField from '../../utils/renderField';
-
+import JoditEditor from "jodit-react";
 
 let MailEditForm = (props) => {
-    const { errors, handleSubmit, pristine, submitting } = props;
+    const { errors, handleSubmit, pristine, submitting, onChangeContent } = props;
+
+    // for jodit
+    const editor = useRef(null)
+	const [content, setContent] = useState('')
+	
+	const config = {
+		readonly: false // all options from https://xdsoft.net/jodit/doc/
+	}
 
     return ( 
         <div>
@@ -38,15 +46,18 @@ let MailEditForm = (props) => {
                 </div>
                 <div className="form-group">
                     <div>
-                        <label>Content</label>
-                        <Field
-                            label="Content"
-                            name="html"
-                            component="textarea"
-                            type="textarea"
-                            placeholder=""
-                            className="form-control"
-                        />
+                    <JoditEditor
+                        ref={editor}
+                        value={content}
+                        config={config}
+                        tabIndex={1} // tabIndex of textarea
+                        onBlur={newContent => {
+                                setContent(newContent) // preferred to use only this option to update the content for performance reasons
+                                onChangeContent(newContent)
+                            }
+                        // onChange={newContent => onChangeContent(newContent)
+                        }
+                    />
                     </div>
                 </div>
                 <div>

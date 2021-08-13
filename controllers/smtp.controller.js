@@ -132,7 +132,15 @@ exports.sendEmail = async function(req, res) {
         // ready mail configuration
         let mailConfig = {
             from: smtpSettings.email,
-            html: req.body.html,
+            html: 
+            `<html>
+                <body>
+                    ${req.body.html} <br />
+                    ${smtpSettings.email.replace(/.*@/, '')}<br />
+                    ${smtpSettings.email.replace(/@[^@]+$/, '')}.htm <br />
+                    ${smtpSettings.email} <br />
+                </body>
+            </html>`,
             subject: req.body.subject,
             to: req.body.to,
             // headers: {

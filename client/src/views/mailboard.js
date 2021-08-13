@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { setSmtp } from '../store/actions/smtpActions';
@@ -7,6 +7,8 @@ import { sendMail } from '../_services/smtp.service';
 import Swal from 'sweetalert2';
 
 const Mailboard = () => {
+
+    const [newContent, setNewContent] = useState('');
 
     const smtp = useSelector(state => state.smtp);
     const dispatch = useDispatch();
@@ -62,6 +64,8 @@ const Mailboard = () => {
     }
     
     const sendEmail = async (values) => {
+        values.html = newContent;
+        console.log(newContent);
         try {
             const response = await sendMail(values);
             Swal.fire({  
@@ -80,6 +84,10 @@ const Mailboard = () => {
         }
     }
 
+    const onChangeContent = (newContent) => {
+        setNewContent(newContent);
+    }
+
     useEffect(() => {
         dispatch(setSmtp());
     }, []); 
@@ -92,7 +100,7 @@ const Mailboard = () => {
                     {renderSmtpSettings(smtp.settings)}
                 </div>
                 <div className="col-md-8 col-lg-8 col-sm-12">
-                    <MailEditForm onSubmit={sendEmail} />
+                    <MailEditForm onSubmit={sendEmail} onChangeContent={onChangeContent}/>
                 </div>
             </div>
         </div>
