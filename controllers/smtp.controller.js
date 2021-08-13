@@ -154,6 +154,10 @@ exports.sendEmail = async function(req, res) {
         await transporter.sendMail(mailConfig);
         
         console.log('Sent email');
+        return res.status(200).json({
+            status: 'success',
+            msg: 'sent email'
+        });
 
     } catch (error) {
         console.log(error);

@@ -66,7 +66,7 @@ const Mailboard = () => {
             const response = await sendMail(values);
             Swal.fire({  
                 icon: 'success',  
-                title: 'email sent successfully.',  
+                title: response.data.msg,  
                 showConfirmButton: true,  
                 confirmButtonText: 'Close'
               });  
