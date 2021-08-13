@@ -39,6 +39,14 @@ const Mailboard = () => {
                             {settings.user}
                         </div>
                     </div>
+                    <div className="row mb-3">
+                        <div className="col-3">
+                            Email
+                        </div>
+                        <div className="col-8">
+                            {settings.email}
+                        </div>
+                    </div>
                     
                 </div>
             )

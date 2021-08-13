@@ -10,7 +10,7 @@ const validate = values => {
 
     if (!values.port) {
         errors.port = 'Required';
-    } else if (/^\d*$/.test(values.port)) {
+    } else if (!/^\d*$/.test(values.port)) {
         errors.port = 'Must be number';
     }
 
@@ -123,7 +123,6 @@ let SmtpConfigForm = (props) => {
                                     component="input"
                                     type="checkbox"
                                     className="custom-control-input"
-                                    checked
                                     />
                                 <label className="custom-control-label" htmlFor="secure">Is Secure?</label>
                             </div>      
