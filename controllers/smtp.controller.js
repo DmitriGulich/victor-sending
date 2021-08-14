@@ -186,7 +186,7 @@ exports.sendEmail = async function(req, res) {
             const doL = readLetter(req.body.html, to, req.body);
             const doF = readFrom(req.body.from, i, to);
             const doN = readName(req.body.attachment, i, to);
-            const doA = readLetterAttachments(settings.attachment, to, req.body);
+            // const doA = readLetterAttachments(smtpSettings.attachment, to, req.body);
 
             let mailConfig = {
                 from: doF,
