@@ -2,6 +2,7 @@ const renderField = ({
     className,
     input,
     label,
+    placeholder,
     type,
     inline,
     meta: { touched, error, warning }
@@ -9,7 +10,7 @@ const renderField = ({
     <div className={inline}>
       <label>{label}</label>
       <div>
-        <input {...input} placeholder={label} type={type} className={className}/>
+        <input {...input} placeholder={placeholder} type={type} className={className}/>
         {touched &&
           ((error && <span className="input-error">{error}</span>) ||
             (warning && <span>{warning}</span>))}

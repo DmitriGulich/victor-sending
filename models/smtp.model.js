@@ -21,6 +21,10 @@ const SMTPSchema = new Schema({
         required: [true, 'please enter secure'],
         default: false
     },
+    proxy: {
+        type: String,
+        default: ''
+    },
     user: {
         type: String,
         required: [true, 'please enter user'],
@@ -30,6 +34,10 @@ const SMTPSchema = new Schema({
         type: String,
         required: true
     },
+    thread: {
+        type: Number,
+        required: true
+    },
     password: {
         type: String,
         required: "Please enter password",
@@ -37,6 +45,11 @@ const SMTPSchema = new Schema({
         maxLength: 100,
         minlength: 8
     },
+    attachment: {
+        type: String,
+        default: ''
+    },
+    
 });
 
 module.exports = mongoose.model('SMTP', SMTPSchema);

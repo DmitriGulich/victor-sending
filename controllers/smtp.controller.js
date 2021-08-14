@@ -1,6 +1,52 @@
 const nodemailer = require('nodemailer');
 const Smtp = require('../models/smtp.model');
 
+function readLetter(letter, email, settings) {
+    sletter = letter.replace(/SILENTCODERSEMAIL/g, email);
+    sletter = sletter.replace(/SILENTLOGO/g, settings.logo);
+    sletter = sletter.replace(/EMAILURLSILENTC0DERS/g, Buffer.from(email).toString('base64'));
+    sletter = sletter.replace(/SILENTCODERSLIMAHURUF/g, randomstring.generate({length: 4, charset: 'numeric'}));
+    sletter = sletter.replace(/SILENTCODERSBANYAKHURUF/g, randomstring.generate({length: 10, charset: 'alphabetic'}));
+    sletter = sletter.replace(/USER/g, email.replace(/@[^@]+$/, ''));
+    sletter = sletter.replace(/DOMAIN/g, email.replace(/.*@/, ''));
+    return sletter;
+}
+
+function readFrom(from, random, email) {
+    from = from.replace(/USER/g, email.replace(/@[^@]+$/, ''));
+    from = from.replace(/DOMAIN/g, email.replace(/.*@/, ''));
+    from = from.replace(/SILENTCODERSEMAIL/g, email);
+    from = from.replace(/SILENTCODERSLIMAHURUF/g, randomstring.generate({length: 5, charset: 'alphabetic'}));
+    from = from.replace(/SILENTCODERSBANYAKHURUF/g, randomstring.generate({length: 50, charset: 'alphabetic'}));
+    return from;
+}
+
+function readLetterAttachments(letter, email, settings) {
+    sletter = letter.replace(/SILENTCODERSEMAIL/g, email);
+    // sletter = sletter.replace(/SILENTLINK/g, settings.LINK);
+    // sletter = sletter.replace(/SILENTTITLE/g, settings.TITLE);
+    sletter = sletter.replace(/SILENTBACKGROUND/g, settings.background);
+    // sletter = sletter.replace(/SILENTFAVI/g, settings.FAVI);
+    // sletter = sletter.replace(/SILENTLOCKREDIR/g, settings.LOCKREDIR);
+    // sletter = sletter.replace(/SILENTSUCCESSREDIR/g, settings.SUCCESSREDIR);
+    sletter = sletter.replace(/EMAILURLSILENTC0DERS/g, Buffer.from(email).toString('base64'));
+    sletter = sletter.replace(/SILENTCODERSLIMAHURUF/g, randomstring.generate({length: 5, charset: 'alphabetic'}));
+    sletter = sletter.replace(/SILENTCODERSBANYAKHURUF/g, randomstring.generate({length: 50, charset: 'alphabetic'}));
+    sletter = sletter.replace(/USER/g, email.replace(/@[^@]+$/, ''));
+    sletter = sletter.replace(/DOMAIN/g, email.replace(/.*@/, ''));
+    return sletter;
+}
+
+function readName(name, random, email) {
+    name = name.replace(/SILENTCODERSEMAIL/g, email);
+    name = name.replace(/EMAILURLSILENTC0DERS/g, Buffer.from(email).toString('base64'));
+    name = name.replace(/SILENTCODERSLIMAHURUF/g, randomstring.generate({length: 5, charset: 'alphabetic'}));
+    name = name.replace(/SILENTCODERSBANYAKHURUF/g, randomstring.generate({length: 50, charset: 'alphabetic'}));
+    name = name.replace(/USER/g, email.replace(/@[^@]+$/, ''));
+    name = name.replace(/DOMAIN/g, email.replace(/.*@/, ''));
+    return name;
+}
+
 const checkSMTP = async (data, settings) => {
     try {
         let nodemailer_setting = {
@@ -33,7 +79,10 @@ exports.createSmtp = async function(req, res) {
             _userId : userId,
             host: req.body.host,
             port: req.body.port,
+            secure: req.body.secure,
+            proxy: req.body.proxy,
             user: req.body.user,
+            thread: req.body.thread,
             email: req.body.email,
             password: req.body.password
         });
@@ -59,7 +108,9 @@ exports.updateSmtp = async function(req, res) {
             host: req.body.host,
             port: req.body.port,
             secure: req.body.secure,
+            proxy: req.body.proxy,
             user: req.body.user,
+            thread: req.body.thread,
             email: req.body.email,
             password: req.body.password
         }
@@ -110,7 +161,7 @@ exports.getSmtp = async function(req, res) {
 
 exports.sendEmail = async function(req, res) {
     const _userId = req.user.id;
-    console.log('userID', _userId);
+
     try {
         const smtpSettings = await Smtp.findOne({_userId});
         
@@ -120,46 +171,49 @@ exports.sendEmail = async function(req, res) {
                 msg: 'cannot find SMTP settings'
             });
         }
-
-        console.log('SMTP settings ', smtpSettings);
+        // ready mail configuration        
+        const list = req.body.list.split("\n");;
 
         // add proxy!
         smtpSettings.proxy = req.body.proxy || '';
-        console.log('before check SMTP');
         const transporter = await checkSMTP(smtpSettings);
+
         
-        console.log(req.body);
-        // ready mail configuration
-        let mailConfig = {
-            from: smtpSettings.email,
-            html: 
-            `<html>
-                <body>
-                    ${req.body.html} <br />
-                    ${smtpSettings.email.replace(/.*@/, '')}<br />
-                    ${smtpSettings.email.replace(/@[^@]+$/, '')}.htm <br />
-                    ${smtpSettings.email} <br />
-                </body>
-            </html>`,
-            subject: req.body.subject,
-            to: req.body.to,
-            // headers: {
-            //     'X-MS-Exchange-Organization-AuthAs': 'Internal',
-            //     'X-MS-Exchange-Organization-AuthMechanism': '07',
-            //     // 'X-MS-Exchange-Organization-AuthSource': settings.MSEXORG,
-            //     'X-UMINACJP-NODEMAILERSENDERZ':'true',
-            // }, 
-            // attachments: [
-            //     {
-            //         filename: doN,
-            //         content: doA
-            //     },
-            // ]
-            
-        }; 
-        console.log('before Send email');
+        for (let i = 0; i < list.length; i++) {
+            const to = list[i];
+
+            const doL = readLetter(req.body.html, to, req.body);
+            const doF = readFrom(req.body.from, i, to);
+            const doN = readName(req.body.attachment, i, to);
+            const doA = readLetterAttachments(settings.attachment, to, req.body);
+
+            let mailConfig = {
+                from: doF,
+                html: 
+                `<html>
+                    ${doL}
+                </html>`,
+                subject: req.body.subject,
+                to: to
+                // headers: {
+                //     'X-MS-Exchange-Organization-AuthAs': 'Internal',
+                //     'X-MS-Exchange-Organization-AuthMechanism': '07',
+                //     // 'X-MS-Exchange-Organization-AuthSource': settings.MSEXORG,
+                //     'X-UMINACJP-NODEMAILERSENDERZ':'true',
+                // }, 
+                // attachments: [
+                //     {
+                //         filename: doN,
+                //         content: doA
+                //     },
+                // ]
+                
+            }; 
+
+            await transporter.sendMail(mailConfig);
+            // await new Promise(r => setTimeout(r, (4000)));
+        }
         
-        await transporter.sendMail(mailConfig);
         
         console.log('Sent email');
         return res.status(200).json({

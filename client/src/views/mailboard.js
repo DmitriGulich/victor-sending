@@ -8,7 +8,9 @@ import Swal from 'sweetalert2';
 
 const Mailboard = () => {
 
+    const [address, setAddress] = useState([]);
     const [newContent, setNewContent] = useState('');
+    const [uploadFiles, setUploadFiles] = useState([]);
 
     const smtp = useSelector(state => state.smtp);
     const dispatch = useDispatch();
@@ -62,9 +64,15 @@ const Mailboard = () => {
             )
         }
     }
+
+    const updateUploadedFiles = (files) =>
+        setUploadFiles(files);
     
     const sendEmail = async (values) => {
+        
         values.html = newContent;
+        values.list = address.target.value;
+
         console.log(newContent);
         try {
             const response = await sendMail(values);
@@ -94,13 +102,19 @@ const Mailboard = () => {
 
     return ( 
         <div className="container">
-            <div className="row">
+            <div className="row mb-5">
                 <div className="col-md-4 col-lg-4 col-sm-12">
                     <h4 className="mb-5">SMTP Setting</h4>
                     {renderSmtpSettings(smtp.settings)}
                 </div>
                 <div className="col-md-8 col-lg-8 col-sm-12">
-                    <MailEditForm onSubmit={sendEmail} onChangeContent={onChangeContent}/>
+                    <MailEditForm 
+                        onSubmit={sendEmail} 
+                        onChangeContent={onChangeContent}
+                        address={address}
+                        setAddress={setAddress}
+                        // updateUploadedFiles={updateUploadedFiles}
+                    />
                 </div>
             </div>
         </div>

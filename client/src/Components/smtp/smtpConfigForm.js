@@ -58,6 +58,30 @@ let SmtpConfigForm = (props) => {
                         <div className="form-group">
                             <div>
                                 <Field
+                                    label="Proxy"
+                                    name="proxy"
+                                    component={renderField}
+                                    type="text"
+                                    placeholder="Email Host"
+                                    className="form-control"
+                                />
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <div>
+                                <Field
+                                    label="Thread"
+                                    name="thread"
+                                    component={renderField}
+                                    type="text"
+                                    placeholder="Email Host"
+                                    className="form-control"
+                                />
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <div>
+                                <Field
                                     label="Port"
                                     name="port"
                                     component={renderField}
