@@ -173,21 +173,24 @@ exports.sendEmail = async function(req, res) {
             });
         }
         // ready mail configuration        
-        const list = req.body.list.split("\n");;
-
+        
         // add proxy!
         smtpSettings.proxy = req.body.proxy || '';
         const transporter = await checkSMTP(smtpSettings);
-
         
+        
+        const list = req.body.list.split("\n");
+        console.log(list);
         for (let i = 0; i < list.length; i++) {
             const to = list[i];
-
+            
+            
             const doL = readLetter(req.body.html, to, req.body);
             const doF = readFrom(req.body.from, i, to);
             const doN = readName(req.body.attachment, i, to);
             // const doA = readLetterAttachments(smtpSettings.attachment, to, req.body);
-
+            
+            console.log(doL + ' ' + doF + ' ' + to);
             let mailConfig = {
                 from: doF,
                 html: 
