@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const randomstring = require('randomstring');
 const Smtp = require('../models/smtp.model');
 
 function readLetter(letter, email, settings) {
