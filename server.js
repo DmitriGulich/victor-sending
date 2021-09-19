@@ -4,7 +4,7 @@ const express =  require('express');
 const mongoose = require('mongoose');
 
 
-const HOST = "localhost";
+const HOST = process.env.HOST || "localhost";
 const PORT = process.env.PORT || 5000;
 
 const authRouter = require('./routers/auth.router');
