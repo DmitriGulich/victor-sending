@@ -24,6 +24,10 @@ const PaymentSchema = new Schema({
     payAt : {
         type: Date,
         default: Date.now()
+    },
+    expiredAt: {
+        type: Date,
+        required: true
     }
 });
 

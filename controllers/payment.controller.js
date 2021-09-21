@@ -1,5 +1,34 @@
-const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
+const Coinpayments = require('coinpayments');
+// const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
+const { verify } = require('coinpaments-ipn');
+const CoinpaymentsIPNError = require('coinpaments-ipn/lib/error');
+
+const Transaction = require('../models/transaction.model');
+const Plan = require('../models/plan.model');
+
+
+const client = new Coinpayments({
+    key: process.env.COIN_KEY,
+    secret: process.env.COIN_SECRET
+});
+
+//  test coin payments. 
+
+exports.coinpyamentsTest = async function(req, res) {
+    try {
+        const result = await client.getBasicInfo();
+        return res.status(200).json({
+            status: 'success',
+            result
+        })
+    } catch (error) {
+        return res.status(500).json({
+            status: 'failed',
+            msg: error.message
+        });
+    }
+}
 
 exports.stripeCheckout = async function(req, res) {
     console.log("stripe-routes.js 9 | route reached", req.body);
@@ -33,7 +62,84 @@ exports.paypalIpn = function(req, res) {
 
 }
 
-exports.coinIpn = function(req, res) {
+exports.coinIpn = async function(req, res) {
+    try {
+        const txId = req.params.id;
+        const payload = req.body;
+        const hmac = req.body.HTTP_HMAC;
+        const ipnSecret = process.env.COIN_SECRET;
 
+        let IsValid, error;
+ 
+        try {
+            isValid = verify(hmac, ipnSecret, payload);
+        } catch (e) {
+            error = e;
+            return;
+        }
+        if (error) {
+            if (error instanceof CoinpaymentsIPNError) {
+                // handle invalid payload
+            }
+            // make bug report
+            return;
+        }
+         
+        if (isValid) {
+            // valid
+
+        } else {
+            // invalid
+        }
+         
+
+    } catch (error) {
+        
+    }
 }
 
+exports.getCoinAddress = async function(req, res) {
+    try {
+        const userId = req.user.id;
+        const planId = req.body.planId;
+
+        // get and check plan
+        const plan = await Plan.findOne({_id: planId});
+
+        if(plan === null) {
+            return res.status(400).json({
+                status: 'failed',
+                msg: 'Cannot find the plan'
+            });
+        }
+        
+        // create new Transaction and check
+        const tx = new Transaction({
+            _userId: userId,
+            amount: plan.amount,
+            currency1: 'BTC',
+        });
+
+        const newTx = await tx.save();
+        if(newTx === null) {
+            return res.status(400).json({
+                status: 'failed',
+                msg: 'cannot create transaction'
+            });
+        }
+
+        // get callback address
+        const addr = await client.getCallbackAddress({
+            currency: newTx.currency1,
+            ipn_url: `${process.env.ipn_url}/${newTx._id}`
+        });
+
+        return res.status(200).json({
+            status: 'success',
+            addr
+        });
+
+    } catch (error) {
+        
+    }
+}

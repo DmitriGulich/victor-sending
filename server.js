@@ -2,7 +2,7 @@ const path =     require('path');
 const express =  require('express');
                  require('dotenv').config();
 const mongoose = require('mongoose');
-
+const bodyParser = require('body-parser');
 
 const HOST = process.env.HOST || "localhost";
 const PORT = process.env.PORT || 5000;
@@ -13,18 +13,28 @@ const smtpRouter = require('./routers/smtp.router');
 const paymentRouter = require('./routers/payment.router');
 const adminRouter = require('./routers/admin.router');
 
+const templateRouter = require('./routers/template.router');
+
 const app = express();
 
+const { protect } = require('./middleware/auth');
+
 app.use(express.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
 app.use(express.static('./client/build'));
 
 app.use('/auth', authRouter);
 app.use('/user', userRouter);
 app.use('/smtp', smtpRouter);
-app.use('/payments', paymentRouter);
+app.use('/payments', protect, paymentRouter);
+
+app.use('/template', protect, templateRouter);
 
 app.use('/admin', adminRouter);
+
 
 app.get('*', function(req, res) {
     res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'), function(err) {

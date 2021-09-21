@@ -7,9 +7,15 @@ const paymentController = require('../controllers/payment.controller');
 router.post('/stripe', paymentController.stripeCheckout);
 
 
-// IPN processing
+
 router.get('/paypalIPN', paymentController.paypalIpn);
-router.get('/coinIPN', paymentController.coinIpn);
+
+// coinpayments
+router.get('/coin', paymentController.getCoinAddress);
+router.post('/coinIPN/:id', paymentController.coinIpn);
+
+//  for test coinpayments
+router.get('/cointest', paymentController.coinpyamentsTest);
 
 // 
 
