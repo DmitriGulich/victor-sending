@@ -34,7 +34,7 @@ app.use('/smtp', smtpRouter);
 app.use('/plan', planRouter);
 app.use('/admin', adminRouter);
 
-app.use('/payments', protect, paymentRouter);
+app.use('/payments', paymentRouter);
 app.use('/template', protect, templateRouter);
 app.use('/list', protect, listRouter);
 

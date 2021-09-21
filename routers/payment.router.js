@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const { protect } = require('../middleware/auth');
+
 const paymentController = require('../controllers/payment.controller');
 
 // check out 
@@ -11,7 +13,7 @@ router.post('/stripe', paymentController.stripeCheckout);
 router.get('/paypalIPN', paymentController.paypalIpn);
 
 // coinpayments
-router.get('/coin', paymentController.getCoinAddress);
+router.get('/coin', protect, paymentController.getCoinAddress);
 router.post('/coinIPN/:id', paymentController.coinIpn);
 
 //  for test coinpayments
