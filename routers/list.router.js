@@ -13,3 +13,5 @@ router
     .get(listController.getList)
     .put(listController.updateList)
     .delete(listController.deleteList);
+
+module.exports = router;

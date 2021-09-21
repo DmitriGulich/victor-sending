@@ -12,6 +12,8 @@ const userRouter = require('./routers/user.router');
 const smtpRouter = require('./routers/smtp.router');
 const paymentRouter = require('./routers/payment.router');
 const adminRouter = require('./routers/admin.router');
+const planRouter = require('./routers/plan.router');
+const listRouter = require('./routers/list.router');
 
 const templateRouter = require('./routers/template.router');
 
@@ -29,11 +31,12 @@ app.use(express.static('./client/build'));
 app.use('/auth', authRouter);
 app.use('/user', userRouter);
 app.use('/smtp', smtpRouter);
-app.use('/payments', protect, paymentRouter);
-
-app.use('/template', protect, templateRouter);
-
+app.use('/plan', planRouter);
 app.use('/admin', adminRouter);
+
+app.use('/payments', protect, paymentRouter);
+app.use('/template', protect, templateRouter);
+app.use('/list', protect, listRouter);
 
 
 app.get('*', function(req, res) {
