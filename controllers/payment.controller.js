@@ -1,8 +1,8 @@
 const Coinpayments = require('coinpayments');
 // const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
-const { verify } = require('coinpaments-ipn');
-const CoinpaymentsIPNError = require('coinpaments-ipn/lib/error');
+const { verify } = require('coinpayments-ipn');
+const CoinpaymentsIPNError = require('coinpayments-ipn/lib/error');
 
 const Transaction = require('../models/transaction.model');
 const Plan = require('../models/plan.model');
