@@ -66,13 +66,14 @@ exports.coinIpn = async function(req, res) {
     try {
         const txId = req.params.id;
         const payload = req.body;
-        const hmac = req.body.HTTP_HMAC;
+        const hmac = req.headers.HTTP_HMAC;
         const ipnSecret = process.env.COIN_SECRET;
 
+        console.log(req.headers);
         console.log(req.body);
         console.log(txId);
 
-        let IsValid, error;
+        let isValid, error;
  
         try {
             isValid = verify(hmac, ipnSecret, payload);
@@ -83,21 +84,25 @@ exports.coinIpn = async function(req, res) {
         if (error) {
             if (error instanceof CoinpaymentsIPNError) {
                 // handle invalid payload
+                return res.status(400);
             }
             // make bug report
-            return;
+            return res.status(400);
         }
          
         if (isValid) {
             // valid
-
+            console.log('validated');
+            return res.status(200);
         } else {
             // invalid
+            console.log('invalid');
+            return res.status(400);
         }
          
 
     } catch (error) {
-        
+        return res.status(500);
     }
 }
 
