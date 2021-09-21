@@ -69,6 +69,9 @@ exports.coinIpn = async function(req, res) {
         const hmac = req.body.HTTP_HMAC;
         const ipnSecret = process.env.COIN_SECRET;
 
+        console.log(req.body);
+        console.log(txId);
+
         let IsValid, error;
  
         try {
@@ -121,6 +124,9 @@ exports.getCoinAddress = async function(req, res) {
         });
 
         const newTx = await tx.save();
+
+        console.log(newTx);
+
         if(newTx === null) {
             return res.status(400).json({
                 status: 'failed',
