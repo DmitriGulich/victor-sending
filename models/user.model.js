@@ -55,7 +55,7 @@ const UserSchema = new Schema({
     },
     freeCount: {
         type: Number,
-        default: 100
+        default: 20
     },
     counter: {
         type: Number,

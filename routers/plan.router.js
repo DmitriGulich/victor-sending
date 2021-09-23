@@ -7,12 +7,12 @@ const planController = require('../controllers/plan.controller');
 
 router
     .route('/')
-    .get(protect, restrictTo('admin'), planController.plans)
-    .post(planController.createPlan);
+    .get(protect, planController.plans)
+    .post(protect, restrictTo('admin'), planController.createPlan);
 
 router
     .route('/:id')
-    .put(planController.updatePlan)
-    .delete(planController.deletePlan);
+    .put(protect, restrictTo('admin'), planController.updatePlan)
+    .delete(protect, restrictTo('admin'), planController.deletePlan);
 
 module.exports = router;

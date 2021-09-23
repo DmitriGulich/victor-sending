@@ -12,7 +12,7 @@ const PlanSchema = new Schema({
     },
     type: {
         type: String,
-        enum: ['premium', 'credit'],
+        enum: ['premium', 'guest'],
         required: true
     }
 });

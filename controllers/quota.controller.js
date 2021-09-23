@@ -1,10 +1,10 @@
-const Plan = require('../models/plan.model');
+const Quota = require('../models/quota.model');
 
-exports.plans = async function(req, res) {
+exports.quotas = async function(req, res) {
     try {
-        const plans = await Plan.find();
+        const quotas = await Quota.find();
 
-        if(plans === null) {
+        if(quotas === null) {
             return res.status(404).json({
                 status: 'empty',
             });
@@ -12,7 +12,7 @@ exports.plans = async function(req, res) {
 
         return res.status(200).json({
             status: 'success',
-            list: plans
+            list: quotas
         });
     } catch (error) {
         return res.status(500).json({
@@ -22,17 +22,47 @@ exports.plans = async function(req, res) {
     }
 }
 
-exports.createPlan = async function(req, res) {
+exports.getQuota = async function(req, res) {
     try {
-        const plan = new Plan({
-            name: req.body.name,
-            amount: req.body.amount,
-            type: req.body.type,
+        const userId = req.user.id;
+        const quotaId = req.params.id;
+
+        const quota = await Quota.findOne({
+            _userId: userId,
+            _id: quotaId
         });
 
-        const newPlan = await plan.save();
+        if(quota === null) {
+            return res.status(204).json({
+                status: 'success',
+                quota: null
+            });
+        }
 
-        if(newPlan === null) {
+        return res.status(200).json({
+            status: 'success',
+            quota
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            status: 'failed',
+            msg: error.message
+        });
+    }
+}
+
+exports.createQuota = async function(req, res) {
+    try {
+        const quota = new Quota({
+            count: req.body.count,
+            price: req.body.price,
+        });
+
+
+        const newQuota = await quota.save();
+
+        if(newQuota === null) {
             return res.status(403).json({
                 status: 'failed',
                 msg: 'Bad Request'
@@ -41,7 +71,7 @@ exports.createPlan = async function(req, res) {
 
         return res.status(201).json({
             status: 'success',
-            plan: newPlan
+            quota: quota
         });
     } catch (error) {
         return res.status(500).json({
@@ -51,18 +81,17 @@ exports.createPlan = async function(req, res) {
     }
 }
 
-exports.updatePlan = async function(req, res) {
+exports.updateQuota = async function(req, res) {
     try {
-        const planId = req.params.id;
+        const quotaId = req.params.id;
 
-        const r = await Plan.updateOne(
+        const r = await Quota.updateOne(
             {
-                _id: planId
+                _id: quotaId
             },
             {
-                name: req.body.name,
-                amount: req.body.amount,
-                type: req.body.type
+                count: req.body.count,
+                price: req.body.price,
             }
         );
 
@@ -84,11 +113,11 @@ exports.updatePlan = async function(req, res) {
     }
 }
 
-exports.deletePlan = async function(req, res) {
+exports.deleteQuota = async function(req, res) {
     try {
-        const planId = req.params.id;
+        const quotaId = req.params.id;
 
-        const r = await Plan.deleteOne({_id: planId});
+        const r = await Quota.deleteOne({_id: quotaId});
 
         if(r !== 1) {
             return res.status(404).json({

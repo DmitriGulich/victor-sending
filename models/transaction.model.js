@@ -11,6 +11,13 @@ const TransactionSchema = new Schema({
         type: Number,
         required: true
     },
+    type: {
+        type: String,
+        required: true
+    },
+    count: {
+        type: Number
+    },
     currency1: {
         type: String,
         required: true

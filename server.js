@@ -14,7 +14,7 @@ const paymentRouter = require('./routers/payment.router');
 const adminRouter = require('./routers/admin.router');
 const planRouter = require('./routers/plan.router');
 const listRouter = require('./routers/list.router');
-
+const quotaRouter = require('./routers/quota.router');
 const templateRouter = require('./routers/template.router');
 
 const app = express();
@@ -32,7 +32,9 @@ app.use('/auth', authRouter);
 app.use('/user', userRouter);
 app.use('/smtp', smtpRouter);
 app.use('/plan', planRouter);
+app.use('/quota', quotaRouter)
 app.use('/admin', adminRouter);
+
 
 app.use('/payments', paymentRouter);
 app.use('/template', protect, templateRouter);

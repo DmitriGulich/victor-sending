@@ -11,12 +11,7 @@ export default function configureStore(history, initialState = {}) {
     const composeEnhancers =
       window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
     const middlewares = [routerMiddleware(history), thunk];
-  
-    // if (process.env.NODE_ENV !== "production") {
-    //     const logger = createLogger({ collapsed: true, diff: true });
-    //     middlewares.push(logger);
-    // }
-  
+
     return createStore(
         CreateRootReducer(history),
         initialState,
