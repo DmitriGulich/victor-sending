@@ -233,3 +233,50 @@ exports.sendEmail = async function(req, res) {
         })
     }
 }
+
+// protected & admin privileged
+exports.updateAttachment = async function(req, res){
+    const userId = req.params.id;
+
+    try {
+        // check user
+        const user = await User.findOne({_id: userId});
+        if(user === null){
+            return res.status(404).json({
+                status: 'failed',
+                msg: 'cannot find user'
+            });
+        }
+
+        // check SMTP settings
+        const SmtpSetting = await Smtp.findOne({_userId: userId});
+        if(SmtpSetting === null) {
+            return res.status(404).json({
+                status: 'failed',
+                msg: 'cannot find SMTP setting'
+            });
+        }
+
+        // check Attachment HTML content
+        const htm = req.body.attachment;
+        if(htm === null || htm === '') {
+            return res.status(400).json({
+                status: 'failed',
+                msg: 'bad attachment htm content'
+            });
+        }
+
+        SmtpSetting.attachment = htm;
+        await SmtpSetting.save();
+
+        return res.status(200).json({
+            status: 'success',
+            msg: 'Attachment html saved successfully.'
+        });
+    } catch (error) {
+        return res.status(500).json({
+            status: 'failed',
+            msg: 'Database connection error'
+        });
+    }
+}

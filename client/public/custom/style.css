@@ -1,0 +1,419 @@
+/* * {
+    box-sizing: border-box;
+}
+
+ */
+
+/* body {
+    background-color: #242C41;
+
+} */
+
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #242C41;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+#header {
+    background-color: #242C41;
+    height: 10vh;
+    border-bottom: 2px solid #32384A;
+}
+
+.flex-container {
+    display: flex;
+    align-items: stretch;
+    background-color: #f1f1f1;
+    margin: 0 0;
+}
+
+.option-editor {
+    width: 60%;
+    color: white;
+    background-color: #181e2d;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.option-editor:focus {
+    outline: #889999;
+}
+
+.exit-editor {
+    color: white;
+    background-color: #242c41;
+    border: none;
+    border-radius: 5px;
+}
+
+.exit-editor:hover {
+    background-color: rgb(14, 19, 29);
+}
+
+.exit-editor:active {
+    outline: none;
+}
+
+#footer {
+    position: fixed;
+    bottom: 0;
+    height: 5vh;
+}
+
+#sidebar {
+    background-color: #242C41;
+    text-align: center;
+    width: 110px;
+    border-right: 2px solid #32384A;
+    /* flex-grow: 1; */
+}
+
+.SidebarItem {
+    padding: 25px 0;
+    color: #6e7b80;
+}
+
+.SidebarItem:hover {
+    color: #ffffff;
+}
+
+.SidebarItem.active {
+    color: white;
+    background-color: #333344;
+}
+
+/* for portfolios window */
+.windows {
+    display: inline-block;
+    color: white;
+    background-color: #1a2133d4;
+    /* width: 300px; */
+    height: 600px;
+}
+
+
+.windows .header {
+    padding: 26px 20px;
+    border-bottom: 1px solid rgb(85, 83, 83);
+}
+
+.windows .header.hide {
+    visibility: hidden;
+}
+
+.windows .header svg {
+    float: right;
+    color: #889999;
+    padding: 3px;
+}
+
+.windows .header svg:hover {
+    color: white;
+}
+
+#tradingPane {
+    padding: 10px;
+    width: 200px;
+    color: #cacaca;
+    background-color: #242C41;
+    display: flex;
+    flex-direction: column;
+}
+
+#tradingPane > div {
+    text-align: center;
+    border: 1px solid #595b63;
+    border-radius: 5px;
+    margin: 7px 5px;
+}
+/* 
+#tradingPane > div:last-child {
+    border: none;
+} */
+
+.settingBlock {
+    overflow: hidden;
+    font-size: 14px;
+}
+
+.settingBlock div:first-child {
+    padding: 2px 10px;
+}
+
+.settingBlock > span {
+    font-size: 18px;
+    color: white;
+}
+
+.spans {
+    display: flex;
+    align-items: justify;
+    justify-content: space-between;
+    margin-top: 6px;
+}
+
+.spans span {
+    cursor: pointer;
+    flex-grow: 1;
+    border: 1px solid #595b63;
+    border-left: none;
+    border-bottom: none;
+    border-collapse: unset;
+}
+
+.spans span.active {
+    color: white;
+    background-color: rgb(61, 80, 102);
+}
+
+.spans span:hover {
+    color: white;
+}
+
+.spans span:last-child {
+    border-right: none;
+}
+
+.spans.margin span:hover {
+    cursor: not-allowed;
+    color: inherit;
+}
+
+.cbtn {
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 7px;
+}
+
+.cbtn-lg {
+    width: 70px;
+    height: 30px;
+    font-size: 16px;
+}
+
+.cbtn-red {
+    background-color: #DA4830;
+    color: white;
+}
+
+.cbtn-green {
+    background-color: #2CAC40;
+    color: white;
+}
+
+.cbtn-sm {
+    font-size: 12px;
+}
+
+.cbtn:focus {
+    outline: none;
+}
+
+.cbtn:hover {
+    cursor: pointer;
+}
+
+
+/* Sidebar portfolio */
+.side-portfolios {
+    width: inherit;
+    height: 65vh;
+    overflow: auto;
+}
+
+@keyframes horizontal {
+    from {transform: translate(-100%, 0)}
+    to {transform: translate(0,0)}
+}
+
+.side-portfolios > div {
+    /* border-bottom: 1px solid rgb(85, 83, 83); */
+    animation: horizontal 0.5s forwards;
+}
+
+.side-portfolios .lower {
+    font-size: 14px;
+    color: gray;
+}
+
+.side-portfolios .profit {
+    font-weight: bold;
+    color: rgb(118, 173, 34);
+}
+
+.side-portfolios .loss {
+    font-weight: bold;
+    color: rgb(187, 46, 46);
+}
+
+
+
+.signup {
+    width: 900px;
+    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+}
+
+.signin {
+    width: 700px;
+    
+}
+
+label.forgot {
+    color: darkgrey;
+}
+
+.signin h1, .signin h3 {
+    text-align: center;
+}
+
+.signin button {
+    width: 100%;
+}
+
+.signup h1 {
+    text-align: center;
+}
+
+.signup button {
+    width: 100%;
+}
+
+/* For close all */
+
+.close-all {
+    position: absolute;
+    top: 30px;
+    right: 50px;
+    z-index: 1;
+}
+
+.close-all button {
+    font-size: 16px;
+    color: white;
+    background-color: #32384A;
+    border: none;
+    border-radius: 4px;
+    padding: 7px 15px;
+    cursor: pointer;
+}
+
+.close-all button:focus {
+    outline: none;
+}
+
+.close-btn-area {
+    text-align: right;
+    background-color: transparent;
+}
+
+.portfolio-list {
+    background-color: #32384A;
+    height: 0px;
+    width: 500px;
+    transition: height .5s;
+    overflow: hidden;
+    color: white;
+}
+
+.portfolio-list.view {
+    height: 200px;
+    color: white;
+    background-color: #32384A;
+    width: 500px;
+    overflow: auto;
+    border-radius: 6px;
+}
+
+form .input-error {
+    color: red;
+}
+
+@media screen and (min-width: 1480px) {
+    .col-lg-3 {
+        max-width: 17%;   
+        flex: 0 0 17%;
+    }
+
+    .col-lg-9 {
+        flex: 0 0 83%;
+        max-width: 83%;
+    }
+
+    .windows {
+        height: 750px;
+    }
+
+    #tradingPane > div {
+        margin: 10px 5px;
+    }
+
+    #tradingPane {
+        width: 240px;
+    }
+}
+
+.funds-content {
+    margin: auto;
+    width: 70%;
+}
+
+.block-detail {
+    text-align: center;
+}
+
+/* @media screen and (max-width: 1920px) {
+    .col-lg-3 {
+        max-width: 17%;   
+        flex: 0 0 17%;
+    }
+
+    .col-lg-9 {
+        flex: 0 0 83%;
+        max-width: 83%;
+    }
+} */
+
+#chart-setting {
+    position: absolute;
+    bottom: 60px;
+    left: 40px;
+    z-index: 999;
+}
+
+#side-window {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+span.nav-link {
+    cursor: pointer;
+}
+
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+  }
